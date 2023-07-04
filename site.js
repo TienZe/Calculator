@@ -35,9 +35,12 @@ dotBtn.addEventListener("click", e => {
 equalOperator.addEventListener("click", e => {
     if (firstNum === null || currentOperator == null) return;
 
-    // Có firstNum -> Có lun toán tử cần tính
+    // Có firstNum và toán tử cần tính
     // Lấy input cho secondNum
-    secondNum = +getInput();
+    let input = getInput();
+    if (input == "") return;
+
+    secondNum = +input;
     console.log("Second: " + secondNum);
 
     // Có đầy đủ 2 số và toán tử cần tính
