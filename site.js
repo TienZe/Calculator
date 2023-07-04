@@ -33,25 +33,28 @@ dotBtn.addEventListener("click", e => {
 });
 
 equalOperator.addEventListener("click", e => {
-    let resInput = handleInput();
+    if (firstNum === null || currentOperator == null) return;
 
-    if (resInput == "second") {
-         // Có đầy đủ 2 số và toán tử cần tính
-        // => Thực hiện phép tính
-        let res = operate(firstNum, secondNum, currentOperator);
-        // Cập nhật lại screen
-        screenLast.textContent = firstNum + " " + currentOperator
-            + " " + secondNum + " =" ;
-        screenCurrent.textContent = res;
+    // Có firstNum -> Có lun toán tử cần tính
+    // Lấy input cho secondNum
+    secondNum = +getInput();
+    console.log("Second: " + secondNum);
 
-        // Cập nhật lại giá trị 2 số firstNum và secondNum
-        firstNum = res;
-        secondNum = null;
-        
-        // Hoàn thành phép tính, chuyển sang trạng thái chờ nhập
-        // phép tính tiếp theo
-        currentOperator = null;
-    }
+    // Có đầy đủ 2 số và toán tử cần tính
+    // => Thực hiện phép tính
+    let res = operate(firstNum, secondNum, currentOperator);
+    // Cập nhật lại screen
+    screenLast.textContent = firstNum + " " + currentOperator
+        + " " + secondNum + " =" ;
+    screenCurrent.textContent = res;
+
+    // Cập nhật lại giá trị 2 số firstNum và secondNum
+    firstNum = res;
+    secondNum = null;
+    
+    // Hoàn thành phép tính, chuyển sang trạng thái chờ nhập
+    // phép tính tiếp theo
+    currentOperator = null;
 });
 
 operatorBtns.forEach(element => {
@@ -59,15 +62,17 @@ operatorBtns.forEach(element => {
         let clickedOperator = e.target.textContent;
 
         // Nếu chưa có phép tính thì đơn giản set phép tính cho nó
-        // Nếu ta chọn phép tính thì sẽ đồng thời nhập firstNum và 
-        // currentOperator
-        if (!currentOperator) {
+        // và đồng thời nhập firstNum
+        if (currentOperator == null) {
             // Get input cho firstNum
-            handleInput();
+            firstNum = +getInput();
+            console.log("First: " + firstNum);
+            // Update screen
             screenLast.textContent = firstNum + " " + clickedOperator;
             screenCurrent.textContent = "";
             // Lưu lại phép tính được chọn
             currentOperator = clickedOperator;
+            console.log("Current operator : " + currentOperator);
             return;
         }
 
@@ -78,13 +83,15 @@ operatorBtns.forEach(element => {
         // Ta đơn giản set lại currentOperator
         if (screenCurrent.textContent == "") {
             currentOperator = clickedOperator;
+            console.log("Current operator : " + currentOperator);
             // Cập nhật screen
-            screenLast.textContent = first + " " + clickedOperator;
+            screenLast.textContent = firstNum + " " + clickedOperator;
             return;
         }
 
         // Có input cho secondNum
-        handleInput(); // get input đó cho secondNum
+        secondNum = +getInput();
+        console.log("second: " + secondNum);
 
         // Có đầy đủ 2 số và toán tử cần tính
         // => Thực hiện phép tính
@@ -102,21 +109,8 @@ operatorBtns.forEach(element => {
     });
 });
 
-function handleInput() {
-    let currentInput = screenCurrent.textContent;
-
-    // Nhập cho firstNum đầu tien
-    if (!firstNum) {
-        firstNum = +currentInput;
-        alert("first: " + firstNum);
-        return "first";
-    }
-    // Nhập secondNum khi đã nhập phép tính
-    if (currentOperator) {
-        secondNum = +currentInput;
-        alert("second : " + secondNum);
-        return "second";
-    }
+function getInput() {
+    return screenCurrent.textContent;
 }
 
 function clear() {
