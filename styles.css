@@ -26,16 +26,24 @@ body {
     text-align: right;
     display: flex;
     flex-direction: column;
+    flex-basis: 90px;
     gap: 10px;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #screen p {
     margin: 0px;
 }
 
-#output {
+#screen-last {
+    flex-basis: 18px;
+}
+
+#screen-current {
     font-size: 30px;
     font-weight: 500;
+    flex-basis: 35px;
 }
 
 #control-buttons {
@@ -63,6 +71,10 @@ body {
     border-radius: 4px;
     font-size: 20px;
     font-weight: 100;
+}
+
+.button:hover {
+    opacity: 0.7;
 }
 
 #buttons-container {
